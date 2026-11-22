@@ -1,0 +1,42 @@
+name: Excavator
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Scoop
+        shell: pwsh
+        run: |
+          iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
+          echo "$HOME\scoop\shims" | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+
+      - name: Run checkver and update manifests
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $scoopHome = scoop prefix scoop
+          & "$scoopHome\bin\checkver.ps1" -App * -Dir "$env:GITHUB_WORKSPACE\bucket" -Update
+
+      - name: Commit and push
+        shell: pwsh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if (git status --porcelain) {
+            git add bucket
+            git commit -m "yonder: update to latest version"
+            git push
+          } else {
+            Write-Host "No changes."
+          }
