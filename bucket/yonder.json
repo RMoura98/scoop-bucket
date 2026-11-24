@@ -1,12 +1,12 @@
 {
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "Free, open-source break reminder",
     "homepage": "https://github.com/RMoura98/yonder",
     "license": "MIT",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/RMoura98/yonder/releases/download/v1.0.7/Yonder_1.0.7_x64_en-US.msi",
-            "hash": "7bcd36d845ec522f47b52821c2f28d6ca1a952f13d9bb55a31b562b9de38d3ab",
+            "url": "https://github.com/RMoura98/yonder/releases/download/v1.0.8/Yonder_1.0.8_x64_en-US.msi",
+            "hash": "d6ec79143fd4c56acf00f24af166244d672602250a063f35ea6ed6751b0f81e0",
             "extract_dir": "PFiles\\Yonder"
         }
     },
